@@ -9,6 +9,9 @@ import SwiftUI
 
 struct OnboardingView: View {
   @AppStorage("onBoarding") var isOnboardingActive: Bool = true
+  @State private var swipeWidth: Double = UIScreen.main.bounds.width - 80
+  @State private var buttonOffset: CGFloat = 0
+  let BUTTON_WIDTH: CGFloat = 80
   
   var body: some View {
     ZStack {
@@ -59,7 +62,7 @@ struct OnboardingView: View {
           HStack {
             Capsule()
               .fill(Color.appRed)
-              .frame(width: 80)
+              .frame(width: buttonOffset + BUTTON_WIDTH)
             
             Spacer()
           }
@@ -75,15 +78,29 @@ struct OnboardingView: View {
                 .font(.system(size: 24, weight: .bold))
             }
             .foregroundColor(.white)
-            .frame(width: 80, height: 80, alignment: .center)
-            .onTapGesture {
-              isOnboardingActive = false
-            }
+            .frame(width: BUTTON_WIDTH, height: BUTTON_WIDTH, alignment: .center)
+            .offset(x: buttonOffset)
+            .gesture(
+              DragGesture()
+                .onChanged { gesture in
+                  if gesture.translation.width > 0 && buttonOffset <= swipeWidth - BUTTON_WIDTH {
+                    buttonOffset = gesture.translation.width
+                  }
+                }
+                .onEnded{ _ in
+                  if buttonOffset >= swipeWidth / 2 {
+                    buttonOffset = swipeWidth - BUTTON_WIDTH
+                    isOnboardingActive = false
+                  } else {
+                    buttonOffset = 0
+                  }
+                }
+            ) // :Gesture
             
             Spacer()
           } // :HStack
         } // :Footer
-        .frame(height: 80, alignment: .center)
+        .frame(width: swipeWidth, height: BUTTON_WIDTH, alignment: .center)
         .padding()
       } // :VStack
     } // :ZStack
