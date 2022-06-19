@@ -16,7 +16,7 @@
 		B23EE64F285EA74700B72EF2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23EE64E285EA74700B72EF2 /* Extensions.swift */; };
 		B23EE652285EA8B900B72EF2 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23EE651285EA8B900B72EF2 /* OnboardingView.swift */; };
 		B23EE654285EA8E800B72EF2 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23EE653285EA8E800B72EF2 /* HomeView.swift */; };
-		B23EE657285F09C400B72EF2 /* AppCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23EE656285F09C400B72EF2 /* AppCircle.swift */; };
+		B23EE65C285F181300B72EF2 /* AppCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23EE65B285F181300B72EF2 /* AppCircle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +31,7 @@
 		B23EE650285EA85B00B72EF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B23EE651285EA8B900B72EF2 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		B23EE653285EA8E800B72EF2 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		B23EE656285F09C400B72EF2 /* AppCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCircle.swift; sourceTree = "<group>"; };
+		B23EE65B285F181300B72EF2 /* AppCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCircle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,7 +114,7 @@
 		B23EE655285F09B400B72EF2 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				B23EE656285F09C400B72EF2 /* AppCircle.swift */,
+				B23EE65B285F181300B72EF2 /* AppCircle.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -194,7 +194,7 @@
 				B23EE63B285EA52100B72EF2 /* ContentView.swift in Sources */,
 				B23EE652285EA8B900B72EF2 /* OnboardingView.swift in Sources */,
 				B23EE64F285EA74700B72EF2 /* Extensions.swift in Sources */,
-				B23EE657285F09C400B72EF2 /* AppCircle.swift in Sources */,
+				B23EE65C285F181300B72EF2 /* AppCircle.swift in Sources */,
 				B23EE654285EA8E800B72EF2 /* HomeView.swift in Sources */,
 				B23EE639285EA52100B72EF2 /* GuideApp.swift in Sources */,
 			);
