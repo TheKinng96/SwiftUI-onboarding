@@ -12,6 +12,10 @@ struct OnboardingView: View {
   @State private var swipeWidth: Double = UIScreen.main.bounds.width - 80
   @State private var buttonOffset: CGFloat = 0
   @State private var isAnimating: Bool = false
+  @State private var imageOffset: CGSize = .zero
+  @State private var opacityIndicator: Double = 1.0
+  @State private var titleText: String = "Share."
+  
   let BUTTON_WIDTH: CGFloat = 80
   
   var getOpacity: Double {
@@ -28,10 +32,12 @@ struct OnboardingView: View {
         Spacer()
 
         VStack(spacing: 0) {
-          Text("Share.")
+          Text(titleText)
             .font(.system(size: 60))
             .fontWeight(.heavy)
-          .foregroundColor(.white)
+            .foregroundColor(.white)
+            .transition(.opacity)
+            .id(titleText)
         
           Text("""
           It is not how much we give but
@@ -50,13 +56,49 @@ struct OnboardingView: View {
         // MARK: - Center
         ZStack {
           AppCircle(isFirst: true)
+            .offset(x: imageOffset.width * -1)
+            .blur(radius: abs(imageOffset.width / 5))
+            .animation(.easeOut(duration: 0.5), value: imageOffset)
           
           Image("character-1")
             .resizable()
             .scaledToFit()
             .opacity(isAnimating ? 1 : 0)
             .animation(.easeOut(duration: 0.5), value: isAnimating)
+            .offset(x: imageOffset.width * 1.2, y: 0)
+            .rotationEffect(.degrees(Double(imageOffset.width / 20)))
+            .gesture(
+              DragGesture()
+                .onChanged({ gesture in
+                  if abs(imageOffset.width) <= 150 {
+                    imageOffset = gesture.translation
+                    
+                    withAnimation(.linear(duration: 0.25)) {
+                      opacityIndicator = 0
+                      titleText = "Give."
+                    }
+                  }
+                })
+                .onEnded({ _ in
+                  imageOffset = .zero
+                  withAnimation(.linear(duration: 0.25)) {
+                    opacityIndicator = 1.0
+                    titleText = "Share."
+                  }
+                })
+            ) // :Gesture
+            .animation(.easeOut(duration: 0.5), value: imageOffset)
         } // :Center
+        .overlay(
+          Image(systemName: "arrow.left.and.right.circle")
+            .font(.system(size: 44, weight: .ultraLight))
+            .foregroundColor(.white)
+            .offset(y: 20)
+            .opacity(getOpacity)
+            .animation(.easeOut(duration: 1).delay(2), value: isAnimating)
+            .opacity(opacityIndicator)
+          , alignment: .bottom
+        )
         
         Spacer()
         
