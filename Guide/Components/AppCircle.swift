@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct AppCircle: View {
-  @State var isFirst: Bool
-
-  var getImageNumber: String {
-    return isFirst ? "1" : "2"
-  }
+  @State public var isFirst: Bool
+  @State public var isAnimating: Bool = false
   
   var ShapeOpacity: Double {
     return isFirst ? 0.2 : 0.1
@@ -24,19 +21,20 @@ struct AppCircle: View {
   
   var body: some View {
     ZStack {
-      ZStack {
-        Circle()
-          .stroke(ShapeColor.opacity(ShapeOpacity), lineWidth: 40)
-          .frame(width: 260, height: 260, alignment: .center)
-        Circle()
-          .stroke(ShapeColor.opacity(ShapeOpacity), lineWidth: 80)
-          .frame(width: 260, height: 260, alignment: .center)
-      } // :ZStack
-      
-      Image("character-\(getImageNumber)")
-        .resizable()
-        .scaledToFit()
-    } // :Center
+      Circle()
+        .stroke(ShapeColor.opacity(ShapeOpacity), lineWidth: 40)
+        .frame(width: 260, height: 260, alignment: .center)
+      Circle()
+        .stroke(ShapeColor.opacity(ShapeOpacity), lineWidth: 80)
+        .frame(width: 260, height: 260, alignment: .center)
+    } // :ZStack
+    .blur(radius: isAnimating ? 0 : 10)
+    .opacity(isAnimating ? 1 : 0)
+    .scaleEffect(isAnimating ? 1 : 0.5)
+    .animation(.easeOut(duration: 1), value: isAnimating)
+    .onAppear(perform: {
+      isAnimating = true
+    })
   }
 }
 

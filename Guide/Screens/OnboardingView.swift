@@ -11,7 +11,12 @@ struct OnboardingView: View {
   @AppStorage("onBoarding") var isOnboardingActive: Bool = true
   @State private var swipeWidth: Double = UIScreen.main.bounds.width - 80
   @State private var buttonOffset: CGFloat = 0
+  @State private var isAnimating: Bool = false
   let BUTTON_WIDTH: CGFloat = 80
+  
+  var getOpacity: Double {
+    return isAnimating ? 1 : 0
+  }
   
   var body: some View {
     ZStack {
@@ -38,9 +43,20 @@ struct OnboardingView: View {
             .foregroundColor(.white)
             .padding(.horizontal, 10)
         } // :Header
+        .opacity(getOpacity)
+        .offset(y: isAnimating ? 0 : -40)
+        .animation(.easeOut(duration: 1), value: isAnimating)
         
         // MARK: - Center
-        AppCircle(isFirst: true) // :Center
+        ZStack {
+          AppCircle(isFirst: true)
+          
+          Image("character-1")
+            .resizable()
+            .scaledToFit()
+            .opacity(isAnimating ? 1 : 0)
+            .animation(.easeOut(duration: 0.5), value: isAnimating)
+        } // :Center
         
         Spacer()
         
@@ -88,11 +104,13 @@ struct OnboardingView: View {
                   }
                 }
                 .onEnded{ _ in
-                  if buttonOffset >= swipeWidth / 2 {
-                    buttonOffset = swipeWidth - BUTTON_WIDTH
-                    isOnboardingActive = false
-                  } else {
-                    buttonOffset = 0
+                  withAnimation(Animation.easeOut(duration: 0.4)) {
+                    if buttonOffset >= swipeWidth / 2 {
+                      buttonOffset = swipeWidth - BUTTON_WIDTH
+                      isOnboardingActive = false
+                    } else {
+                      buttonOffset = 0
+                    }
                   }
                 }
             ) // :Gesture
@@ -102,8 +120,14 @@ struct OnboardingView: View {
         } // :Footer
         .frame(width: swipeWidth, height: BUTTON_WIDTH, alignment: .center)
         .padding()
+        .opacity(getOpacity)
+        .offset(y: isAnimating ? 0 : 40)
+        .animation(.easeOut(duration: 1), value: isAnimating)
       } // :VStack
     } // :ZStack
+    .onAppear {
+      isAnimating = true
+    }
   }
 }
 

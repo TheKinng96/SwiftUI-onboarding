@@ -9,13 +9,22 @@ import SwiftUI
 
 struct HomeView: View {
   @AppStorage("onBoarding") var isOnboardingView: Bool = false
+  @State private var isAnimating: Bool = false
   
   var body: some View {
     VStack(spacing: 20) {
       Spacer()
       
-      AppCircle(isFirst: false)
-        .padding()
+      ZStack {
+        AppCircle(isFirst: false)
+        
+        Image("character-2")
+          .resizable()
+          .scaledToFit()
+          .padding()
+          .offset(y: isAnimating ? 35 : -35)
+          .animation(Animation.easeInOut(duration: 4).repeatForever(), value: isAnimating)
+      } // :Center
 
       Text("""
       The time that leads to mastery is
@@ -30,7 +39,9 @@ struct HomeView: View {
       Spacer()
       
       Button {
-        isOnboardingView = true
+        withAnimation{
+          isOnboardingView = true
+        }
       } label: {
         Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
           .imageScale(.large)
@@ -43,6 +54,11 @@ struct HomeView: View {
       .buttonBorderShape(.capsule)
       .controlSize(.large)
     } // :VStack
+    .onAppear {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        isAnimating = true
+      }
+    }
   }
 }
 
