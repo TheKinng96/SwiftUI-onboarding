@@ -16,6 +16,7 @@ struct OnboardingView: View {
   @State private var opacityIndicator: Double = 1.0
   @State private var titleText: String = "Share."
   
+  let hapticFeedback = UINotificationFeedbackGenerator()
   let BUTTON_WIDTH: CGFloat = 80
   
   var getOpacity: Double {
@@ -148,9 +149,12 @@ struct OnboardingView: View {
                 .onEnded{ _ in
                   withAnimation(Animation.easeOut(duration: 0.4)) {
                     if buttonOffset >= swipeWidth / 2 {
+                      hapticFeedback.notificationOccurred(.success)
+                      playSound(sound: "chimeup", type: "mp3")
                       buttonOffset = swipeWidth - BUTTON_WIDTH
                       isOnboardingActive = false
                     } else {
+                      hapticFeedback.notificationOccurred(.warning)
                       buttonOffset = 0
                     }
                   }
@@ -170,6 +174,7 @@ struct OnboardingView: View {
     .onAppear {
       isAnimating = true
     }
+    .preferredColorScheme(.dark)
   }
 }
 
